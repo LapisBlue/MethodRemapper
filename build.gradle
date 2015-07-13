@@ -6,10 +6,11 @@ plugins {
     id 'idea'
 
     id 'com.github.hierynomus.license' version '0.11.0'
+    id 'com.jfrog.bintray' version '1.2'
 }
 
 group = 'blue.lapis'
-version = '1.0-SNAPSHOT'
+version = '0.1-SNAPSHOT'
 description = 'TODO'
 
 sourceCompatibility = 1.6
@@ -52,6 +53,33 @@ publishing {
                     url = System.getenv('REPO_' + (version.endsWith('-SNAPSHOT') ? 'SNAPSHOTS' : 'RELEASES')) ?: "$buildDir/repo"
                 }
             }
+        }
+    }
+}
+
+bintray {
+    if (project.hasProperty('bintrayUser')) {
+        user = project.bintrayUser
+        key = project.bintrayKey
+    }
+
+    publications = ['mavenJava']
+    pkg {
+        repo = 'maven'
+        name = project.name
+        userOrg = 'lapis'
+        desc = project.description
+        licenses = ['MIT']
+
+        websiteUrl = 'https://github.com/LapisBlue/MethodRemapper'
+        issueTrackerUrl = "$websiteUrl/issues"
+        vcsUrl = "${websiteUrl}.git"
+
+        labels = ['remapper', 'asm']
+
+        version {
+            name = project.version
+            vcsTag = name
         }
     }
 }
