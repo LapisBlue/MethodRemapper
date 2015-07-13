@@ -10,7 +10,7 @@ plugins {
 }
 
 group = 'blue.lapis'
-version = '0.1-SNAPSHOT'
+version = '0.1'
 description = 'TODO'
 
 sourceCompatibility = 1.6
@@ -76,6 +76,8 @@ bintray {
         vcsUrl = "${websiteUrl}.git"
 
         labels = ['remapper', 'asm']
+
+        publicDownloadNumbers = true
 
         version {
             name = project.version
