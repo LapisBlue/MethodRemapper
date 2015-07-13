@@ -20,14 +20,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package blue.lapis.pore.remapper.provider;
+package blue.lapis.methodremapper;
 
-import org.objectweb.asm.ClassReader;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
-import java.io.IOException;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.MethodVisitor;
 
-public interface ClassProvider {
+import java.util.Map;
 
-    ClassReader getClass(String name) throws IOException;
+public class RemapClassVisitor extends RemapInvokeClassVisitor {
+
+    private final Map<String, String> mappings;
+
+    public RemapClassVisitor(ClassVisitor cv, Remapper remapper, Map<String, String> mappings) {
+        super(cv, remapper);
+        this.mappings = checkNotNull(mappings, "mappings");
+    }
+
+    @Override
+    public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+        String mapping = this.mappings.get(name + desc);
+        if (mapping != null) {
+            name = mapping;
+            access |= ACC_SYNTHETIC;
+        }
+
+        return super.visitMethod(access, name, desc, signature, exceptions);
+    }
 
 }

@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package blue.lapis.pore.remapper;
+package blue.lapis.methodremapper;
 
 import static com.google.common.base.Charsets.UTF_8;
 

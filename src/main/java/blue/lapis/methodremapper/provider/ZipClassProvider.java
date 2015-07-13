@@ -20,34 +20,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package blue.lapis.pore.remapper;
+package blue.lapis.methodremapper.provider;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.objectweb.asm.Opcodes.ASM5;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.ClassReader;
 
-public class RemapInvokeClassVisitor extends ClassVisitor {
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
-    private final Remapper remapper;
+public class ZipClassProvider implements ClassProvider {
 
-    public RemapInvokeClassVisitor(ClassVisitor cv, Remapper remapper) {
-        super(ASM5, cv);
-        this.remapper = checkNotNull(remapper, "remapper");
+    public static final String CLASS_EXTENSION = ".class";
+
+    private final ZipFile zip;
+
+    public ZipClassProvider(ZipFile zip) {
+        this.zip = checkNotNull(zip, "zip");
     }
 
     @Override
-    public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        return new MethodVisitor(ASM5, super.visitMethod(access, name, desc, signature, exceptions)) {
+    public ClassReader getClass(String name) throws IOException {
+        return getClassFile(name + CLASS_EXTENSION);
+    }
 
-            @Override
-            public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-                String mapping = remapper.getMapping(owner, name + desc);
-                super.visitMethodInsn(opcode, owner, mapping != null ? mapping : name, desc, itf);
+    public ClassReader getClassFile(String file) throws IOException {
+        return getClassFile(this.zip.getEntry(file));
+    }
+
+    public ClassReader getClassFile(ZipEntry entry) throws IOException {
+        if (entry != null) {
+            InputStream in = this.zip.getInputStream(entry);
+            try {
+                return new ClassReader(in);
+            } finally {
+                in.close();
             }
-
-        };
+        } else {
+            return null;
+        }
     }
 
 }

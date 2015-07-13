@@ -20,47 +20,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package blue.lapis.pore.remapper.provider;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+package blue.lapis.methodremapper.provider;
 
 import org.objectweb.asm.ClassReader;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
-public class ZipClassProvider implements ClassProvider {
+public interface ClassProvider {
 
-    public static final String CLASS_EXTENSION = ".class";
-
-    private final ZipFile zip;
-
-    public ZipClassProvider(ZipFile zip) {
-        this.zip = checkNotNull(zip, "zip");
-    }
-
-    @Override
-    public ClassReader getClass(String name) throws IOException {
-        return getClassFile(name + CLASS_EXTENSION);
-    }
-
-    public ClassReader getClassFile(String file) throws IOException {
-        return getClassFile(this.zip.getEntry(file));
-    }
-
-    public ClassReader getClassFile(ZipEntry entry) throws IOException {
-        if (entry != null) {
-            InputStream in = this.zip.getInputStream(entry);
-            try {
-                return new ClassReader(in);
-            } finally {
-                in.close();
-            }
-        } else {
-            return null;
-        }
-    }
+    ClassReader getClass(String name) throws IOException;
 
 }
