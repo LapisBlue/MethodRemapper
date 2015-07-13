@@ -37,7 +37,7 @@ import java.util.List;
 
 public final class RemapperConfig implements LineProcessor<ImmutableTable<String, String, String>> {
 
-    public static final String DEFAULT_FILE_NAME = "remap.txt";
+    public static final String STANDARD_FILE_NAME = "remap.txt";
     private static final Splitter LINE_SPLITTER = Splitter.on(' ').trimResults();
 
     private final ImmutableTable.Builder<String, String, String> builder = ImmutableTable.builder();
