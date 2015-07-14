@@ -1,2 +1,2 @@
 rootProject.name = 'methodremapper'
-
+include 'gradle-plugin', 'tweaker'
