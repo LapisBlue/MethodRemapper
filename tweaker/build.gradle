@@ -1,6 +1,10 @@
 version = '0.1-SNAPSHOT'
 description = 'TODO'
 
+ext {
+    artifactId = 'tweaker'
+}
+
 repositories {
     maven {
         name = 'minecraft'

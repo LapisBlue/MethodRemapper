@@ -12,6 +12,12 @@ plugins {
 version = '0.1'
 description = 'TODO'
 
+ext {
+    github = 'LapisBlue/MethodRemapper'
+    url = "https://github.com/$github"
+    artifactId = 'remapper'
+}
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
@@ -23,7 +29,7 @@ subprojects {
 }
 
 allprojects {
-    group = 'blue.lapis'
+    group = 'blue.lapis.methodremapper'
 
     sourceCompatibility = 1.6
     targetCompatibility = 1.6
@@ -48,16 +54,77 @@ allprojects {
         from sourceSets.main.allSource
     }
 
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.java
+    afterEvaluate {
+        publishing {
+            publications {
+                mavenJava(MavenPublication) {
+                    from components.java
 
-                artifact sourceJar
+                    artifact sourceJar
 
-                repositories {
-                    maven {
-                        url = System.getenv('REPO_' + (version.endsWith('-SNAPSHOT') ? 'SNAPSHOTS' : 'RELEASES')) ?: "$buildDir/repo"
+                    artifactId project.artifactId
+
+                    pom.withXml {
+                        def root = asNode()
+
+                        // Ugly hack to exclude all transitve dependencies because Gradle doesn't seem to support that
+                        // directly (for project dependencies)
+                        def dep = root.dependencies.dependency.find {
+                            it.artifactId[0].text() == 'remapper'
+                        }
+                        if (dep != null) {
+                            dep.children().last() + {
+                                // Why is this even necessary?
+                                resolveStrategy = Closure.DELEGATE_FIRST
+
+                                exclusions {
+                                    exclusion {
+                                        resolveStrategy = Closure.DELEGATE_FIRST
+
+                                        groupId '*'
+                                        artifactId '*'
+                                    }
+                                }
+                            }
+                        }
+
+                        root.children().last() + {
+                            // Why is this even necessary?
+                            resolveStrategy = Closure.DELEGATE_FIRST
+
+                            name project.name
+                            description project.description
+
+                            organization {
+                                name 'Lapis'
+                                url 'https://lapis.blue'
+                            }
+
+                            licenses {
+                                license {
+                                    name 'MIT License'
+                                    url 'http://opensource.org/licenses/MIT'
+                                    distribution 'repo'
+                                }
+                            }
+
+                            scm {
+                                url project.url
+                                connection "scm:git:${project.url}.git"
+                                developerConnection "scm:git:git@github.com:${github}.git"
+                            }
+
+                            issueManagement {
+                                system 'github'
+                                url "$project.url/issues"
+                            }
+                        }
+                    }
+
+                    repositories {
+                        maven {
+                            url = System.getenv('REPO_' + (version.endsWith('-SNAPSHOT') ? 'SNAPSHOTS' : 'RELEASES')) ?: "$buildDir/repo"
+                        }
                     }
                 }
             }
@@ -89,7 +156,7 @@ subprojects {
     }
 
     dependencies {
-        provided(rootProject) {
+        compile(rootProject) {
             transitive = false
         }
     }
@@ -115,7 +182,7 @@ bintray {
         desc = project.description
         licenses = ['MIT']
 
-        websiteUrl = 'https://github.com/LapisBlue/MethodRemapper'
+        websiteUrl = project.url
         issueTrackerUrl = "$websiteUrl/issues"
         vcsUrl = "${websiteUrl}.git"
 
