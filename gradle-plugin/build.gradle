@@ -5,6 +5,7 @@ version = '0.1-SNAPSHOT'
 description = 'TODO'
 
 ext {
+    projectName = "${rootProject.name}Gradle"
     artifactId = 'gradle-plugin'
 }
 

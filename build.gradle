@@ -15,6 +15,8 @@ description = 'TODO'
 ext {
     github = 'LapisBlue/MethodRemapper'
     url = "https://github.com/$github"
+
+    projectName = name
     artifactId = 'remapper'
 }
 
@@ -92,7 +94,7 @@ allprojects {
                             // Why is this even necessary?
                             resolveStrategy = Closure.DELEGATE_FIRST
 
-                            name project.name
+                            name project.projectName
                             description project.description
 
                             organization {
