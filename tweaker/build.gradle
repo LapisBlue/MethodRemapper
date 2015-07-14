@@ -2,7 +2,7 @@ version = '0.1-SNAPSHOT'
 description = 'TODO'
 
 ext {
-    projectName = "${rootProject.name}Tweaker"
+    projectName = "${rootProject.projectName}Tweaker"
     artifactId = 'tweaker'
 }
 

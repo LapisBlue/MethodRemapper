@@ -33,6 +33,7 @@ class MethodRemapperPlugin implements Plugin<Project> {
     void apply(Project project) {
         this.project = project
         project.with {
+            apply plugin: 'java'
             task('remap', type: RemapTask) {
                 inputTask = tasks.jar
                 config = sourceSets.main.resources.find { it.name == 'remap.txt' }

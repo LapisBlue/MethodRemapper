@@ -16,7 +16,7 @@ ext {
     github = 'LapisBlue/MethodRemapper'
     url = "https://github.com/$github"
 
-    projectName = name
+    projectName = 'MethodRemapper'
     artifactId = 'remapper'
 }
 
@@ -160,6 +160,7 @@ subprojects {
     dependencies {
         compile(rootProject) {
             transitive = false
+            exclude group: '*', module: '*'
         }
     }
 }
@@ -179,7 +180,7 @@ bintray {
     publications = ['mavenJava']
     pkg {
         repo = 'maven'
-        name = project.name
+        name = project.projectName
         userOrg = 'lapis'
         desc = project.description
         licenses = ['MIT']
