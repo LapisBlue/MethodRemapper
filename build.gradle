@@ -123,11 +123,14 @@ allprojects {
                         }
                     }
 
-                    repositories {
-                        maven {
-                            url = System.getenv('REPO_' + (version.endsWith('-SNAPSHOT') ? 'SNAPSHOTS' : 'RELEASES')) ?: "$buildDir/repo"
+                    if (!version.endsWith('-SNAPSHOT')) {
+                        repositories {
+                            maven {
+                                url = System.getenv('REPO_RELEASES') ?: "$buildDir/repo"
+                            }
                         }
                     }
+
                 }
             }
         }
