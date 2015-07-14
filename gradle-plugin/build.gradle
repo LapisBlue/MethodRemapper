@@ -1,7 +1,11 @@
-apply plugin: 'java-gradle-plugin'
-apply plugin: 'groovy'
+plugins {
+    id 'java-gradle-plugin'
+    id 'groovy'
 
-version = '0.1-SNAPSHOT'
+    id 'com.gradle.plugin-publish' version '0.9.1'
+}
+
+version = '0.1'
 description = 'TODO'
 
 ext {
@@ -11,4 +15,18 @@ ext {
 
 dependencies {
     compile localGroovy()
+}
+
+pluginBundle {
+    website = project.url
+    vcsUrl = website
+    description = project.description
+    tags = ['asm', 'remapper']
+
+    plugins {
+        remapperPlugin {
+            id = 'blue.lapis.methodremapper'
+            displayName = rootProject.name
+        }
+    }
 }
