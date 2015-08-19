@@ -40,3 +40,42 @@ The mappings configuration is a simple text file consisting out of 3 parts for a
 
 **Example:** `java/lang/Object toString()Ljava/lang/Object; asString`  
 **Full example:** https://github.com/LapisBlue/Pore/blob/master/src/main/resources/remap.txt
+
+# Java API
+The [Gradle plugin](https://github.com/LapisBlue/MethodRemapper/blob/master/gradle-plugin/src/main/groovy/blue/lapis/methodremapper/gradle/RemapTask.groovy#L51-L90) is a good example how to use the remapper in other applications.
+
+**Javadocs:** https://jd.lapis.blue/methodremapper/
+
+## Dependency
+MethodRemapper is available as Maven dependency on [jCenter](https://bintray.com/bintray/jcenter).
+
+### Gradle (recommended)
+```gradle
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'blue.lapis.methodremapper:remapper:0.2'
+}
+```
+
+### Maven
+```xml
+<repositories>
+    <repository>
+        <name>jcenter</name>
+        <url>http://jcenter.bintray.com</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+<dependencies>
+    <dependency>
+        <groupId>blue.lapis.methodremapper</groupId>
+        <artifactId>remapper</artifactId>
+        <version>0.2</version>
+    </dependency>
+</dependencies>
+```
