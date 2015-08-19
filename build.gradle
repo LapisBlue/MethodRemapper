@@ -10,7 +10,7 @@ plugins {
 }
 
 version = '0.2'
-description = 'Java library and Gradle plugin to remap method names after compilation'
+description = 'A Gradle plugin with Java API to remap method names during the build'
 
 ext {
     github = 'LapisBlue/MethodRemapper'
