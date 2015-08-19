@@ -9,7 +9,7 @@ plugins {
     id 'com.jfrog.bintray' version '1.2'
 }
 
-version = '0.1'
+version = '0.2'
 description = 'Java library and Gradle plugin to remap method names after compilation'
 
 ext {
@@ -61,6 +61,10 @@ allprojects {
             publications {
                 mavenJava(MavenPublication) {
                     from components.java
+
+                    if (project.tasks.findByName('javadocJar')) {
+                        artifact javadocJar
+                    }
 
                     artifact sourceJar
 
@@ -172,6 +176,22 @@ dependencies {
     compile 'com.google.guava:guava:17.0'
     compile 'org.ow2.asm:asm:5.0.3'
     compile 'org.slf4j:slf4j-api:1.7.12'
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+    options.charSet = 'UTF-8'
+    options.links(
+            'http://www.slf4j.org/apidocs/',
+            'http://docs.guava-libraries.googlecode.com/git-history/v17.0/javadoc/',
+            'http://asm.ow2.org/asm50/javadoc/user/',
+            'http://docs.oracle.com/javase/8/docs/api/'
+    )
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 
 bintray {
