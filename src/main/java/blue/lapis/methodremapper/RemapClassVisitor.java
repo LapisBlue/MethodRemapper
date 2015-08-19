@@ -31,14 +31,16 @@ import org.objectweb.asm.MethodVisitor;
 import java.util.Map;
 
 /**
- * The main {@link ClassVisitor} that will remap the matching methods to their new name.
+ * The main {@link ClassVisitor} that will remap the matching methods to their
+ * new name.
  */
 public class RemapClassVisitor extends RemapInvokeClassVisitor {
 
     private final Map<String, String> mappings;
 
     /**
-     * Creates a new {@link RemapClassVisitor} using the specified {@link ClassVisitor}, {@link Remapper} and mappings.
+     * Creates a new {@link RemapClassVisitor} using the specified
+     * {@link ClassVisitor}, {@link Remapper} and mappings.
      *
      * @param cv The parent class visitor, may be {@code null}
      * @param remapper The remapper

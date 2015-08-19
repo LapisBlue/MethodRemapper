@@ -32,14 +32,16 @@ import org.objectweb.asm.MethodVisitor;
 import java.io.IOException;
 
 /**
- * The basic {@link ClassVisitor} that will only remap method calls to the remapped methods.
+ * The basic {@link ClassVisitor} that will only remap method calls to the
+ * remapped methods.
  */
 public class RemapInvokeClassVisitor extends ClassVisitor {
 
     private final Remapper remapper;
 
     /**
-     * Creates a new {@link RemapInvokeClassVisitor} using the specified {@link ClassVisitor} and {@link Remapper}.
+     * Creates a new {@link RemapInvokeClassVisitor} using the specified
+     * {@link ClassVisitor} and {@link Remapper}.
      *
      * @param cv The parent class visitor, may be {@code null}
      * @param remapper The remapper

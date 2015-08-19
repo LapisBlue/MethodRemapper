@@ -39,8 +39,8 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Represents the main remapper that will remap given classes using the
- * provided method mappings.
+ * Represents the main remapper that will remap given classes using the provided
+ * method mappings.
  */
 public class Remapper {
 
@@ -50,8 +50,8 @@ public class Remapper {
     private final Map<String, Map<String, String>> classes;
 
     /**
-     * Creates a new {@link Remapper} instance using the specified provider
-     * and mappings.
+     * Creates a new {@link Remapper} instance using the specified provider and
+     * mappings.
      *
      * @param provider The provider of the classes that will be scanned
      * @param mappings The method mappings to use
@@ -73,9 +73,11 @@ public class Remapper {
     /**
      * Gets the mapping (new method name) for the specified method.
      *
-     * @param owner The full qualified owning class of the method in internal format, e.g. java/lang/Object
+     * @param owner The full qualified owning class of the method in internal
+     *        format, e.g. java/lang/Object
      * @param method The method name
-     * @return The mapping (new method name) of the specified method, or {@code null} if not found
+     * @return The mapping (new method name) of the specified method, or
+     *         {@code null} if not found
      * @throws IOException If loading classes from the provider fails
      */
     public String getMapping(String owner, String method) throws IOException {
@@ -135,8 +137,10 @@ public class Remapper {
     }
 
     /**
-     * Loads and remaps the given class file using the mappings of this {@link Remapper}. This will scan the class hierarchy of the given class for
-     * matching mappings and finally remap the method names to their new names. If one of the super classes was not scanned for matching mappings
+     * Loads and remaps the given class file using the mappings of this
+     * {@link Remapper}. This will scan the class hierarchy of the given class
+     * for matching mappings and finally remap the method names to their new
+     * names. If one of the super classes was not scanned for matching mappings
      * yet it will be queried from the provided {@link ClassProvider}.
      *
      * @param name The class name to remap
@@ -148,9 +152,11 @@ public class Remapper {
     }
 
     /**
-     * Remaps the given class file using the mappings of this {@link Remapper}. This will scan the class hierarchy of the given class for
-     * matching mappings and finally remap the method names to their new names. If one of the super classes was not scanned for matching mappings
-     * yet it will be queried from the provided {@link ClassProvider}.
+     * Remaps the given class file using the mappings of this {@link Remapper}.
+     * This will scan the class hierarchy of the given class for matching
+     * mappings and finally remap the method names to their new names. If one of
+     * the super classes was not scanned for matching mappings yet it will be
+     * queried from the provided {@link ClassProvider}.
      *
      * @param bytes The class bytes to read from
      * @return The remapped class
@@ -161,9 +167,11 @@ public class Remapper {
     }
 
     /**
-     * Remaps the given class file using the mappings of this {@link Remapper}. This will scan the class hierarchy of the given class for
-     * matching mappings and finally remap the method names to their new names. If one of the super classes was not scanned for matching mappings
-     * yet it will be queried from the provided {@link ClassProvider}.
+     * Remaps the given class file using the mappings of this {@link Remapper}.
+     * This will scan the class hierarchy of the given class for matching
+     * mappings and finally remap the method names to their new names. If one of
+     * the super classes was not scanned for matching mappings yet it will be
+     * queried from the provided {@link ClassProvider}.
      *
      * @param reader The class reader to read the class from
      * @return The remapped class

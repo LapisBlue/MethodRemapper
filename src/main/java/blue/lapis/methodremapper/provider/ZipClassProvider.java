@@ -32,7 +32,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * Represents a standard {@link ClassProvider} backed by a simple Java ZIP or JAR file.
+ * Represents a standard {@link ClassProvider} backed by a simple Java ZIP or
+ * JAR file.
  */
 public class ZipClassProvider implements ClassProvider {
 
