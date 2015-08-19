@@ -22,12 +22,23 @@
  */
 package blue.lapis.methodremapper.provider;
 
+import blue.lapis.methodremapper.Remapper;
 import org.objectweb.asm.ClassReader;
 
 import java.io.IOException;
 
+/**
+ * Represents the provider that will load all needed class files for a {@link Remapper}.
+ */
 public interface ClassProvider {
 
+    /**
+     * Gets a class reader for the class with the specified name.
+     *
+     * @param name The name of the class to load in internal format, e.g. java/lang/Object
+     * @return The class reader of the specified class
+     * @throws IOException If the class couldn't be loaded
+     */
     ClassReader getClass(String name) throws IOException;
 
 }

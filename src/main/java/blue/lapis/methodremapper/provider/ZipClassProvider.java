@@ -31,12 +31,23 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+/**
+ * Represents a standard {@link ClassProvider} backed by a simple Java ZIP or JAR file.
+ */
 public class ZipClassProvider implements ClassProvider {
 
+    /**
+     * The file extension used for Java classes.
+     */
     public static final String CLASS_EXTENSION = ".class";
 
     private final ZipFile zip;
 
+    /**
+     * Creates a new {@link ZipClassProvider} for the specified {@link ZipFile}.
+     *
+     * @param zip The zip file to load the classes from
+     */
     public ZipClassProvider(ZipFile zip) {
         this.zip = checkNotNull(zip, "zip");
     }
@@ -46,10 +57,24 @@ public class ZipClassProvider implements ClassProvider {
         return getClassFile(name + CLASS_EXTENSION);
     }
 
+    /**
+     * Loads a class from the specified class file path.
+     *
+     * @param file The class file path in the zip file
+     * @return The loaded class
+     * @throws IOException If the class couldn't be loaded
+     */
     public ClassReader getClassFile(String file) throws IOException {
         return getClassFile(this.zip.getEntry(file));
     }
 
+    /**
+     * Loads a class from the specified {@link ZipEntry}.
+     *
+     * @param entry The zip entry to load the class from
+     * @return The loaded class
+     * @throws IOException If the class couldn't be loaded
+     */
     public ClassReader getClassFile(ZipEntry entry) throws IOException {
         if (entry != null) {
             InputStream in = this.zip.getInputStream(entry);

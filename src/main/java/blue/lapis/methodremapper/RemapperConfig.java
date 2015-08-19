@@ -35,8 +35,24 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+/**
+ * Represents a simple mappings loader using a simple text file.
+ *
+ * <p>The text file consists out of 3 parts for a mapping each separated by a single space on each line:
+ * <ul>
+ *     <li>The full qualified class name of the owning class in internal format, e.g. java/lang/Object</li>
+ *     <li>The method name and <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.3">descriptor</a> of the source
+ *     method.</li>
+ *     <li>The new method name.</li>
+ * </ul>
+ * </p>
+ * <p>Example: {@code java/lang/Object toString()Ljava/lang/Object; asString}</p>
+ */
 public final class RemapperConfig implements LineProcessor<ImmutableTable<String, String, String>> {
 
+    /**
+     * The recommended standard file name for mapping configurations.
+     */
     public static final String STANDARD_FILE_NAME = "remap.txt";
     private static final Splitter LINE_SPLITTER = Splitter.on(' ').trimResults();
 
@@ -66,6 +82,14 @@ public final class RemapperConfig implements LineProcessor<ImmutableTable<String
         return this.builder.build();
     }
 
+    /**
+     * Loads the mappings from the specified {@link File} or resource. If a file using the specified name exists, it will be loaded from the file. If
+     * not, it will be loaded as resource from the JAR.
+     *
+     * @param name The name of the file to load the mappings from
+     * @return The loaded mappings
+     * @throws IOException If the mappings couldn't be loaded
+     */
     public static ImmutableTable<String, String, String> loadMappings(String name) throws IOException {
         File file = new File(name);
         if (file.exists()) {
@@ -75,10 +99,24 @@ public final class RemapperConfig implements LineProcessor<ImmutableTable<String
         return loadMappings(Resources.getResource(name));
     }
 
+    /**
+     * Loads the mappings from the specified {@link File}.
+     *
+     * @param file The file to load the mappings from
+     * @return The loaded mappings
+     * @throws IOException If the mappings couldn't be loaded
+     */
     public static ImmutableTable<String, String, String> loadMappings(File file) throws IOException {
         return Files.readLines(file, UTF_8, new RemapperConfig());
     }
 
+    /**
+     * Loads the mappings from the specified {@link URL} (resource).
+     *
+     * @param resource The resource to load the mappings from
+     * @return The loaded mappings
+     * @throws IOException If the mappings couldn't be loaded
+     */
     public static ImmutableTable<String, String, String> loadMappings(URL resource) throws IOException {
         return Resources.readLines(resource, UTF_8, new RemapperConfig());
     }

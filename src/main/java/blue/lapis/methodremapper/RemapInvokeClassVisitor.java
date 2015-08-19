@@ -25,13 +25,25 @@ package blue.lapis.methodremapper;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.objectweb.asm.Opcodes.ASM5;
 
+import com.google.common.base.Throwables;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
+import java.io.IOException;
+
+/**
+ * The basic {@link ClassVisitor} that will only remap method calls to the remapped methods.
+ */
 public class RemapInvokeClassVisitor extends ClassVisitor {
 
     private final Remapper remapper;
 
+    /**
+     * Creates a new {@link RemapInvokeClassVisitor} using the specified {@link ClassVisitor} and {@link Remapper}.
+     *
+     * @param cv The parent class visitor, may be {@code null}
+     * @param remapper The remapper
+     */
     public RemapInvokeClassVisitor(ClassVisitor cv, Remapper remapper) {
         super(ASM5, cv);
         this.remapper = checkNotNull(remapper, "remapper");
@@ -43,8 +55,12 @@ public class RemapInvokeClassVisitor extends ClassVisitor {
 
             @Override
             public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-                String mapping = remapper.getMapping(owner, name + desc);
-                super.visitMethodInsn(opcode, owner, mapping != null ? mapping : name, desc, itf);
+                try {
+                    String mapping = remapper.getMapping(owner, name + desc);
+                    super.visitMethodInsn(opcode, owner, mapping != null ? mapping : name, desc, itf);
+                } catch (IOException e) {
+                    throw Throwables.propagate(e);
+                }
             }
 
         };
