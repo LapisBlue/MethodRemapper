@@ -39,16 +39,16 @@ import java.util.List;
  * Represents a simple mappings loader using a simple text file.
  *
  * <p>The text file consists out of 3 parts for a mapping each separated by a
- * single space on each line:
+ * single space on each line:</p>
  *
  * <ul>
  *     <li>The full qualified class name of the owning class in internal
  *     format, e.g. java/lang/Object</li>
  *     <li>The method name and
  *         <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.3">
- *         descriptor</a> of the source method.</li> <li>The new method name.</li>
+ *         descriptor</a> of the source method.</li>
+ *     <li>The new method name.</li>
  * </ul>
- * </p>
  *
  * <p>Example:
  * {@code java/lang/Object toString()Ljava/lang/Object; asString}</p>
