@@ -30,3 +30,13 @@ remap {
     config = project.file('myconfig.txt')
 }
 ```
+
+# Mappings
+The mappings configuration is a simple text file consisting out of 3 parts for a mapping, each separated by a single space on each line:
+
+- The full qualified class name of the owning class in internal format, e.g. `java/lang/Object`
+- The method name and [descriptor](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.3) of the source method
+- The new method name
+
+**Example:** `java/lang/Object toString()Ljava/lang/Object; asString`  
+**Full example:** https://github.com/LapisBlue/Pore/blob/master/src/main/resources/remap.txt
