@@ -1,4 +1,4 @@
-version = '0.2-SNAPSHOT'
+version = '0.3-SNAPSHOT'
 description = 'TODO'
 
 ext {
@@ -14,6 +14,5 @@ repositories {
 }
 
 dependencies {
-    provided 'net.minecraft:launchwrapper:1.12'
-    provided 'com.google.guava:guava:17.0'
+    compile 'net.minecraft:launchwrapper:1.12'
 }

@@ -5,8 +5,8 @@ plugins {
     id 'eclipse'
     id 'idea'
 
-    id 'com.github.hierynomus.license' version '0.11.0'
-    id 'com.jfrog.bintray' version '1.3.1'
+    id 'net.minecrell.licenser' version '0.1.2'
+    id 'com.jfrog.bintray' version '1.6'
 }
 
 version = '0.2'
@@ -27,7 +27,7 @@ subprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
 
-    apply plugin: 'license'
+    apply plugin: 'net.minecrell.licenser'
 }
 
 allprojects {
@@ -41,14 +41,9 @@ allprojects {
     }
 
     license {
-        header rootProject.file('LICENSE')
+        header = rootProject.file('LICENSE')
         include '**/*.java'
         include '**/*.groovy'
-
-        strictCheck true
-        mapping {
-            java = 'SLASHSTAR_STYLE'
-        }
     }
 
     task sourceJar(type: Jar) {
@@ -71,30 +66,7 @@ allprojects {
                     artifactId project.artifactId
 
                     pom.withXml {
-                        def root = asNode()
-
-                        // Ugly hack to exclude all transitve dependencies because Gradle doesn't seem to support that
-                        // directly (for project dependencies)
-                        def dep = root.dependencies.dependency.find {
-                            it.artifactId[0].text() == 'remapper'
-                        }
-                        if (dep != null) {
-                            dep.children().last() + {
-                                // Why is this even necessary?
-                                resolveStrategy = Closure.DELEGATE_FIRST
-
-                                exclusions {
-                                    exclusion {
-                                        resolveStrategy = Closure.DELEGATE_FIRST
-
-                                        groupId '*'
-                                        artifactId '*'
-                                    }
-                                }
-                            }
-                        }
-
-                        root.children().last() + {
+                        asNode().children().last() + {
                             // Why is this even necessary?
                             resolveStrategy = Closure.DELEGATE_FIRST
 
@@ -142,33 +114,8 @@ allprojects {
 }
 
 subprojects {
-    configurations {
-        provided
-    }
-
-    sourceSets {
-        main {
-            compileClasspath += configurations.provided
-        }
-    }
-
-    eclipse {
-        classpath {
-            plusConfigurations += [configurations.provided]
-        }
-    }
-
-    idea {
-        module {
-            scopes.PROVIDED.plus += [configurations.provided]
-        }
-    }
-
     dependencies {
-        compile(rootProject) {
-            transitive = false
-            exclude group: '*', module: '*'
-        }
+        compile rootProject
     }
 }
 
