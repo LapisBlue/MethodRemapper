@@ -15,4 +15,4 @@ env:
     - LAPIS_DEPLOY=https://github.com/LapisBlue/Deploy.git DEPLOY_ROOT=/tmp/lapis/deploy
     - secure: "PO7LDpjgEA/NCb5go1P3CRus4Pi0vIeG/hH6rG8cu7F5OhE9YBY9qrwcriv0iUAtHm1iyD+gLCu9D+xwEUB2XAHTx8/JHDI/LRi36pEyrYVcyt7bcSTW7aXs8a4djuo/AU1Fq3Zp49BGedPVtTfC+fIIxVPpmUjHOzYHDst1IeF95tzPrfPd+KZKecRiANk90Wm1ACY8t/9UigIbDm3xFyzbKf0aBTMra9fl7oLB9nfgZ1AJH2JHvJR6D7rtQjsPaeMtEFn+NY3akkX57GgrssXYXEazundAg3Vdp1Qoji3Zm9M3gATPivVp9egXWYTiARy+N7PsmgFiy7G+3W+KLONNawH60Zx6HBjY2x0mu8GLwunneK2jigF4FsRC3bbGkeoBUAxzXI5zvnzIwtvVGR8Rti45RZcCsNSLQ7FR0CkYEnMTDBwnlmmLUmSRcu7FrBFmYowvX1e0KceDHLF78DNuTBsewooWa4bweZmeRakW+dRcmtNJadxkpYV67rAWPPOCUwwimNqHZR4fjL5rGQkW+TfWD9uJP6e4wG/3qsl8oZ+xOBPJQJ76BwHhwMfWeoB3CcX1SbCq5x9FwJBrH/0y/ADB+lxSU2ONzzToQgCOs7f1Hz0ZUU2N4Wrqlj7OeVYDv6gKWhX79570nyDJoTQCM59t+PTCWKDwlK4ABLA="
 
-after_success: git clone $LAPIS_DEPLOY $DEPLOY_ROOT && $DEPLOY_ROOT/maven_repo "gradle :tweaker:publish"
+after_success: git clone $LAPIS_DEPLOY $DEPLOY_ROOT && $DEPLOY_ROOT/maven_repo "./gradlew :tweaker:publish"
